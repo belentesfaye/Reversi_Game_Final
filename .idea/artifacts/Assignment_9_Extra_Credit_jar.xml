@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Assignment 9 Extra Credit:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Assignment_9_Extra_Credit_jar</output-path>
+    <root id="archive" name="Assignment 9 Extra Credit.jar">
+      <element id="module-output" name="Reversi Game Final" />
+    </root>
+  </artifact>
+</component>

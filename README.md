@@ -1,0 +1,205 @@
+# Reversi Game
+
+## Overview
+
+This file contains an implementation of the classic Reversi game with a hexagonal grid-based board.
+
+### Key components
+ - Board (Driven): The Board interface represents the game board for a hexagonal board game. It defines the structure
+and methods for interacting with the game board, such as making moves, retrieving cell states, and getting valid moves.
+It is primarily "driven" as it serves as the core data structure of the game.
+
+- BoardImpl (Drives): The BoardImpl class is an implementation of the `Board` interface and represents
+the actual game board. It is responsible for creating and managing the hexagonal grid, handling moves,
+checking validity, and maintaining the state of the board. This component "drives" the control flow of the game,
+as it enforces the game rules and keeps track of the board's state.
+
+- Cell (Driven): The Cell class represents individual cells on the game board. It encapsulates the q and r coordinates
+and the state of the cell (e.g., empty, occupied by player X or O).
+It is primarily "driven" as it holds the data for each cell.
+
+- CellState (Driven): The CellState enum represents the possible states of a cell on the game board (X, O, or empty).
+It defines the available states for cells and is "driven" by the game logic.
+
+- HexCoordinate (Driven): The HexCoordinate class represents the hexagonal coordinates (q, r) used to locate
+cells on the board. It encapsulates the q and r components, along with methods for comparison.
+It is a "driven" component used for coordinate representation.
+
+- Game (Driven): The Game interface defines the rules and methods for playing the game, checking for valid moves,
+and determining the winner. It is a "driven" component that sets the game's structure and logic.
+
+- ReversiGame (Drives): The ReversiGame class is an implementation of the `Game` interface
+and represents the Reversi game. It enforces the rules of the Reversi game, manages player turns,
+and determines the winner. It "drives" the game's control flow and logic.
+
+- player (Driven): The player interface defines the method for a player to make a move on the game board.
+It is a "driven" component as it specifies the behavior that player classes must implement.
+
+- ReversiView (Drives): The ReversiView class is an implementation of the `TextualView`
+interface and provides a way to render the game board in a textual format.
+It is responsible for rendering the board and is part of the view layer.
+It "drives" the process of displaying the game board to the user.
+
+
+### Key subcomponents
+#### Board and BoardImpl
+- Board: The main nouns within Board are Cell and HexCoordinate.
+  Cell represents individual hexagonal cells on the game board,
+  and HexCoordinate represents the coordinates for locating these cells.
+  These components exist to define the structure of the game board
+  and allow players to interact with specific cells.
+
+- BoardImpl: Within BoardImpl, the primary nouns are the Cell instances stored in the boardMap.
+  These `Cell` objects represent the actual state of the game board,
+  and they exist to maintain the state of each cell,
+  enforce game rules, and provide methods for interacting with the board,
+  such as making moves and retrieving cell states.
+
+#### Cell and CellState
+- Cell: A Cell represents an individual hexagonal cell on the game board.
+  It contains the q and r coordinates and the state of the cell (X, O, or empty).
+  Cell objects exist to hold the state and position information for each cell on the board.
+
+- CellState: The CellState enum defines the possible states of a cell (X, O, or empty).
+  It exists to specify and differentiate between the states of individual cells,
+  allowing for easy representation and manipulation of cell states.
+
+#### HexCoordinate
+- HexCoordinate: HexCoordinate represents the q and r components of hexagonal coordinates.
+  It exists to encapsulate these coordinates and provide methods for comparison,
+  making it easier to work with hexagonal grid coordinates in the game.
+
+#### Game and ReversiGame
+- Game: The primary nouns within the Game component are Board, player, and ReversiView.
+  These components exist to define the overall structure of the game, the rules,
+  and the interactions with the game board. Board represents the game board,
+  player represents the players, and ReversiView handles the rendering of the board.
+
+#### ReversiGame
+Within ReversiGame, the primary nouns are Board, player, and ReversiView.
+These components drive the control flow of the Reversi game.
+Board represents the game board and its state,
+player represents the players making moves, and ReversiView provides a view of the game board.
+These components collectively manage the game's logic and user interaction.
+
+#### player
+- player: The main noun within the player component is HexCoordinate,
+  representing a move that a player wants to make on the game board.
+  The player component exists to define the behavior of a player
+  and the method for making moves on the board.
+
+#### ReversiView
+- ReversiView: The primary nouns within the ReversiView component are Board
+  and the textual representation of the game board.
+  ReversiView exists to render the game board in a textual format, making it accessible to users.
+  It primarily focuses on displaying the game board and does not influence the game's logic.
+
+#### Source organization
+- Board, BoardImpl, Cell, CellState, HexCoordinate, Game, and ReversiGame
+are all located in the reversi.model package.
+- player is located in the reversi.player package.
+- ReversiView is located in the reversi.view package.
+
+
+### Changes for part 2
+Key subcomponents:
+Board and BoardImpl:
+- Board: The method getBoardMap() was added to the Board interface.
+This method returns the boardMap, which is a map of HexCoordinates to Cells.
+This method was added to allow the ReversiView to access the boardMap
+and render the game board.
+The method copy() was added to the Board interface.
+This method returns a copy of the boardMap.
+There was an update to the javadoc for the Board interface and BoardImpl.
+This update is based on repsonse from previous assignment, the java doc was expanded to reflect
+the new methods as well as provide a detailed description of the Board interface.
+
+#### ReadonlyReversiModel
+provides a read-only view of a reversi game with hexagonal grid-based rules
+- exposes methods to retrieve information about the game state, current player, winner, score,
+and other game-related details
+
+#### Game
+refractor and became an extension of ReadonlyReversiModel
+The Game interface was refractored to extend the ReadonlyReversiModel interface.
+
+#### New Methods
+- getValidMoves() to obtain a list of valid moves in the game
+- Important for providing players with the available moves during their turn.
+- getOpponent() provide an easy retrieval of the opponent player <br>
+
+There was an update to the javadoc for the Game interface.
+This update is based on response from previous assignment, the java doc was expanded to reflect
+the new methods as well as provide a detailed description of the Game interface.
+
+#### ReversiGame
+new methods from the game interfaces implemented
+- Removed the unnecessary comments from the previous assignment
+- Updated Javadoc comments to reflect the changes and provide clear documentation for each method
+View
+HexagonalGridPanel: class extends JPanel and implements MouseListener and KeyListener to handle user interactions
+HexUtils: part of a graphical user interface (GUI) for a Hexagonal Grid-based game
+
+#### Extra credit and strategies
+
+Move: class represents a move in the Reversi game. It has q and r coordinates
+1. [**ReversiStrategy**](src/strategies/ReversiStrategy.java): interface defines a method chooseMove that takes a Game object as a parameter and returns a Move
+2. [**MinimaxStrategy**](src/strategies/MinimaxStrategy.java): evaluates possible moves by recursively exploring the game tree up to a specified depth
+3. [**GoForCornersStrategy**](src/strategies/GoForCornersStrategy.java): selects electing moves that target corner positions on the game board
+4. [**AvoidCornersStrategy**](src/strategies/AvoidCornersStrategy.java): focuses on avoiding moves that are adjacent to the corners of the game board
+
+
+#### Changes for part 3
+#### Model
+- The constructor creates a new BoardImpl with a size of 6, sets the initial currentPlayer to GamePlayers.Black
+- Initializes an aiPlayer field with a new instance of AIPlayer associated with the current game
+- Includes an aiPlayer field, which seems to represent an AI player associated with the game
+- In the new implementation, there is a startGame method that initializes the current player to GamePlayers.Black.
+- getWinner returns a enum
+  IController Interface and IControllerImpl:
+- this class is responsible for managing the interaction between the model and the view.
+- facilitates the gameplay by handling actions such as starting the game, processing player moves, and managing the end of the game. Key features:
+- StartGame():Initiates the game, making the view visible and starting the initial game state.
+- cellSelected(int q, int r):Handles player moves, ensuring that the move is valid and updating the view accordingly. Displays an error message if it's not the player's turn.
+- passRequested():Allows players to pass their turn, updating the view and model accordingly.
+- changePlayer(): Switches the current player, updating the view to reflect the change.
+- endGame(): Handles the end of the game, displaying the winner and updating the view accordingly.
+
+##### IControllerImpl as an Observer
+
+- Registers itself as an observer for player actions (view.addPlayerActionListener(this)).
+- Registers itself as an observer for model status changes (model.addModelStatusListener(this)).
+IViewImpl as a Listener:
+
+Implements methods to handle various events
+- **Player actions** (addPlayerActionListener): Listens for player moves.
+- **Mouse events**: Listens for mouse clicks on the hexagonal grid.
+- **Key events**: Listens for key presses (if the controller implements KeyListener).
+
+Player Implementations
+AIPlayer:
+- this class represents an AI player in the game. It can make moves on the game board based on a predefined strategy.
+- The AI player randomly selects a valid move from the list of available moves.
+
+HumanPlayer:
+- this class represents a human player in the game. It can make moves on the game board either manually or based on a predefined strategy.
+- The human player's move can be selected through user interaction or automatically using a strategy.
+
+##### Changes for extra credit
+- SquareBoard: The SquareBoard class is an implementation of the Board interface and represents the actual game board.
+  should have methods similar to the BoardImpl class, but with a square grid instead of a hexagonal grid.
+- SquareReversiGame: The SquareReversiGame class is an implementation of the Game interface and represents the Reversi game.
+  should have methods similar to the ReversiGame class, but with a square grid instead of a hexagonal grid.
+- AbstractModel: The AbstractModel class is an abstract class that implements the Game interface.
+  created to provide a common implementation for the Game interface and prevent code duplication.
+- SquareTextualView: The SquareTextualView class is an implementation of the TextualView interface and provides a way to render the game board in a textual format.
+  should have methods similar to the ReversiView class, but with a square grid instead of a hexagonal grid.
+  Renders the game board in a textual format, making it accessible to users. Can be demostrated by running the main method in the SquareTextualView class.
+- SquareGridPanel: The SquareGridPanel class extends JPanel and implements MouseListener and KeyListener to handle user interactions.
+  should have methods similar to the HexagonalGridPanel class, but with a square grid instead of a hexagonal grid.
+- HintManger: The HintManager class is responsible for providing hints to the user.
+  used in the HexagonalGridPanel class to display hints for the user.
+  can be demostrated by running the main method in the ReversiMCVDemo class.
+- SquareStartgeyMain: The SquareStrategyMain class is responsible for running the game with a square grid.
+  used to run the game with a square grid.
+  can be demostrated by running the main method in the SquareStrategyMain class.
